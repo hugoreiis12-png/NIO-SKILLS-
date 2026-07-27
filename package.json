@@ -1,0 +1,38 @@
+{
+  "name": "@nio/skills",
+  "version": "0.1.0",
+  "description": "Skills, commands, agents, rules e hooks para analistas de dados, cientistas de dados, BI e desenvolvimento de software.",
+  "type": "module",
+  "scripts": {
+    "ids": "node scripts/assign-ids.mjs"
+  },
+  "files": [
+    "commands",
+    "skills",
+    "agents",
+    "hooks",
+    "rules",
+    "dependencies",
+    "index.md",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugoreiis12-png/NIO-SKILLS-.git"
+  },
+  "homepage": "https://github.com/hugoreiis12-png/NIO-SKILLS-#readme",
+  "keywords": [
+    "nio",
+    "skills",
+    "commands",
+    "data-analysis",
+    "data-science",
+    "business-intelligence",
+    "mcp",
+    "agent-skills"
+  ],
+  "license": "MIT"
+}
