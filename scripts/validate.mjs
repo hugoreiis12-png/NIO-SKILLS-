@@ -4,7 +4,7 @@
 // de hook existentes, `min_cli_version` no formato, e zero resíduo `noclaf`.
 // Roda no CI (.github/workflows/validate.yml) e como pre-push local. `--selftest`
 // exercita os classificadores puros. Exit 1 se algo falha.
-import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
+import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -109,7 +109,7 @@ function checkMinCli(data) {
 // só o que a CLI consome — `docs/` e `scripts/` são repo-only, podem citar o histórico
 const BUNDLE = ["commands", "skills", "agents", "hooks", "rules", "dependencies"];
 
-function checkNoNoclaf() {
+function checkNoNIO() {
   const hits = [];
   for (const d of BUNDLE) {
     if (!existsSync(join(ROOT, d))) continue;
@@ -145,7 +145,7 @@ function main() {
   checkJson("nio-skills.json", checkMinCli);
   checkJson("hooks/hooks.json", checkHooksJson);
   checkJson(".nio-ids.json");
-  checkNoNoclaf();
+  checkNoNIO();
   if (errors.length) {
     console.error(`✗ validate: ${errors.length} problema(s)`);
     for (const e of errors) console.error(`  - ${e}`);
