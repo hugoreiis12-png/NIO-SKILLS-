@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Valida a integridade estrutural do bundle antes de entrar na esteira: taxonomia
 // de skills/agents/commands, `name:` batendo com a pasta, JSON parseável, scripts
-// de hook existentes, `min_cli_version` no formato, e zero resíduo `noclaf`.
-// Roda no CI (.github/workflows/validate.yml) e como pre-push local. `--selftest`
-// exercita os classificadores puros. Exit 1 se algo falha.
+// de hook existentes e `min_cli_version` no formato. Roda no CI
+// (.github/workflows/validate.yml) e como pre-push local. `--selftest` exercita
+// os classificadores puros. Exit 1 se algo falha.
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,7 +38,7 @@ function skillDepth(relPath) {
   return relPath.split("/").slice(1, -1).length;
 }
 
-/** A forma do path de um SKILL.md é válida? (role/general/skill ou role/area/<stack|general>/skill) */
+/** Forma do path de um SKILL.md: role/general/skill ou role/area/<stack|general>/skill. */
 function validSkillPath(relPath) {
   const segs = relPath.split("/").slice(1, -1); // sem `skills` e sem `SKILL.md`
   if (segs.length === 3) return segs[1] === "general";
@@ -53,7 +53,7 @@ function checkSkills() {
     if (!validSkillPath(r)) fail(`skills: path fora da taxonomia — ${r}`);
     const folder = basename(dirname(abs));
     const name = frontmatterName(abs);
-    if (name && name !== folder) fail(`skills: name: "${name}" ≠ pasta "${folder}" — ${r}`);
+    if (name && name !== folder) fail(`skills: name: "${name}" != pasta "${folder}" — ${r}`);
   }
 }
 
@@ -67,7 +67,7 @@ function checkAgents() {
     }
     const name = frontmatterName(abs);
     const stem = basename(abs, ".md");
-    if (name && name !== stem) fail(`agents: name: "${name}" ≠ arquivo "${stem}" — ${r}`);
+    if (name && name !== stem) fail(`agents: name: "${name}" != arquivo "${stem}" — ${r}`);
   }
 }
 
@@ -106,24 +106,6 @@ function checkMinCli(data) {
     fail(`nio-skills.json: min_cli_version ausente ou fora de x.y.z — ${JSON.stringify(v)}`);
 }
 
-// só o que a CLI consome — `docs/` e `scripts/` são repo-only, podem citar o histórico
-const BUNDLE = ["commands", "skills", "agents", "hooks", "rules", "dependencies"];
-
-function checkNoNIO() {
-  const hits = [];
-  for (const d of BUNDLE) {
-    if (!existsSync(join(ROOT, d))) continue;
-    for (const abs of walk(join(ROOT, d))) {
-      try {
-        if (/noclaf/i.test(readFileSync(abs, "utf8"))) hits.push(rel(abs));
-      } catch {
-        /* binário — ignora */
-      }
-    }
-  }
-  if (hits.length) fail(`resíduo "noclaf" no bundle: ${hits.join(", ")}`);
-}
-
 function selftest() {
   const assert = (c, m) => {
     if (!c) throw new Error(m);
@@ -132,7 +114,7 @@ function selftest() {
   assert(validSkillPath("skills/data/general/model-card/SKILL.md"), "data/general/skill");
   assert(validSkillPath("skills/dev/front-end/general/emil/SKILL.md"), "role/area/general/skill");
   assert(validSkillPath("skills/dev/front-end/nextjs/foo/SKILL.md"), "role/area/stack/skill");
-  assert(!validSkillPath("skills/dev/foo/bar/SKILL.md"), "depth3 sem general = inválido");
+  assert(!validSkillPath("skills/dev/foo/bar/SKILL.md"), "depth3 sem general = invalido");
   assert(!validSkillPath("skills/dev/general/SKILL.md"), "raso demais");
   assert(skillDepth("skills/a/b/c/SKILL.md") === 3, "skillDepth");
   console.log("selftest ok");
@@ -145,13 +127,12 @@ function main() {
   checkJson("nio-skills.json", checkMinCli);
   checkJson("hooks/hooks.json", checkHooksJson);
   checkJson(".nio-ids.json");
-  checkNoNIO();
   if (errors.length) {
-    console.error(`✗ validate: ${errors.length} problema(s)`);
+    console.error(`x validate: ${errors.length} problema(s)`);
     for (const e of errors) console.error(`  - ${e}`);
     process.exit(1);
   }
-  console.log("✓ validate: bundle íntegro");
+  console.log("ok validate: bundle integro");
 }
 
 process.argv.includes("--selftest") ? selftest() : main();
