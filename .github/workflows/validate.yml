@@ -1,0 +1,34 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Estrutura do bundle (taxonomia, name:, JSON, hooks, min_cli_version)
+        run: |
+          node scripts/validate.mjs --selftest
+          node scripts/validate.mjs
+
+      - name: Selftest dos hooks de qualidade
+        run: |
+          python3 hooks/check-code-size.py selftest
+          python3 hooks/check-comment-length.py selftest
+
+      - name: IDs completos, únicos e sem colisão skill/command
+        run: |
+          node scripts/assign-ids.mjs
+          git diff --exit-code || {
+            echo "::error::assign-ids atribuiu ou alterou IDs — rode 'npm run ids' e commite."
+            exit 1
+          }
