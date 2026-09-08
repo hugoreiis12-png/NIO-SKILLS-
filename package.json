@@ -1,5 +1,5 @@
 {
-  "name": "@nio/skills",
+  "name": "@nio-cli/skills",
   "version": "0.1.0",
   "description": "Skills, commands, agents, rules e hooks para analistas de dados, cientistas de dados, BI e desenvolvimento de software.",
   "type": "module",
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/hugoreiis12-png/NIO-SKILLS-#readme",
   "keywords": [
     "nio",
+    "nio-cli",
     "skills",
     "commands",
     "data-analysis",

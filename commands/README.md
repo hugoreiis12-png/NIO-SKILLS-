@@ -1,8 +1,11 @@
 # Commands
 
-Slash-commands (`/nome`). Organizados por seção — a pasta agrupa pro time achar; ao sincronizar, cada seção vira um namespace (ex.: `/dev:implement`).
+Slash-commands (`/nome`). Hoje todos pertencem ao loop de spec-driven dev e ficam na raiz de `commands/`.
 
-## Seções
+## Índice
 
-- **[dev](dev/README.md)** — commands de engenharia (o loop de spec-driven dev).
-- **[productivity](productivity/README.md)** — commands de fluxo de trabalho, fora do código. (vazio)
+| Command | Descrição |
+|---------|-----------|
+| [`/implement`](implement.md) | Motor único de execução — spec READY, bug ou conjunto de tickets, em worktree isolado; lint/build/testes verdes; **STAGE** (nunca commita). |
+| [`/ship`](ship.md) | Commit (Conventional) → push → PR → fecha as issues/tasks entregues (GitHub + NOS). |
+| [`/build`](build.md) | Loop autônomo do ticket ao PR: por ticket roda `code-executor` → `code-reviewer` → gate, depois `/ship`. Default `--auto`; `--review` adiciona gate humano. |

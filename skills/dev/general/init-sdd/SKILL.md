@@ -52,8 +52,9 @@ set -uo pipefail
 mkdir -p docs/specs docs/bugs docs/decisions docs/_templates
 for d in specs bugs decisions; do [ -e "docs/$d/.gitkeep" ] || : > "docs/$d/.gitkeep"; done
 tpl=""
-for c in "$HOME/.claude/skills/init-sdd/templates" "$HOME/.codex/skills/init-sdd/templates" \
-         "$HOME/.noclaf/skills/skills/dev/general/init-sdd/templates"; do
+for c in "$HOME/.config/opencode/skills/init-sdd/templates" \
+         "$HOME/.claude/skills/init-sdd/templates" "$HOME/.codex/skills/init-sdd/templates" \
+         "$HOME/.nio/skills/skills/dev/general/init-sdd/templates"; do
   [ -d "$c" ] && tpl="$c" && break
 done
 if [ -n "$tpl" ]; then

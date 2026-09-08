@@ -1,6 +1,7 @@
 ---
+id: 40
 name: code-executor
-description: Worker que implementa UM ticket/task no worktree seguindo o harness do projeto (docs/_rules/noclaf.md + docs/_patterns.md + AGENTS.md). Faz a mudança mínima que atende aos critérios, com testes quando o repo tiver, e deixa STAGED (nunca commita). É o executor do loop de build.
+description: Worker que implementa UM ticket/task no worktree seguindo o harness do projeto (docs/_rules/nio.md + docs/_patterns.md + AGENTS.md). Faz a mudança mínima que atende aos critérios, com testes quando o repo tiver, e deixa STAGED (nunca commita). É o executor do loop de build.
 tools: Read, Write, Edit, Grep, Glob, Bash
 model: sonnet
 ---
@@ -12,7 +13,7 @@ mínima** que atende aos critérios — sem escopo extra.
 
 ## Antes de codar
 
-- Carregue o harness: `docs/_rules/noclaf.md`, `docs/_patterns.md`, `AGENTS.md`.
+- Carregue o harness: `docs/_rules/nio.md`, `docs/_patterns.md`, `AGENTS.md`.
 - Entenda o ticket + os critérios de aceitação.
 
 ## Ao implementar

@@ -1,6 +1,6 @@
 ---
 id: 13
-title: grill-me
+name: grill-me
 description: 'Entreviste o usuário sem dó sobre um plano ou design até chegar num entendimento compartilhado, resolvendo cada ramo da árvore de decisão. Use quando o usuário quiser estressar um plano, ser sabatinado sobre o design dele, ou mencionar "grill me"'
 model: opus
 effort: high

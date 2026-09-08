@@ -76,13 +76,13 @@ elif [ -f yarn.lock ];         then yarn --silent
 elif [ -f poetry.lock ];       then poetry install -q
 elif [ -f Cargo.toml ];        then cargo fetch -q
 fi
-# IDE: registra/abre o worktree no editor escolhido (campo `ide` do noclaf.json de origem).
+# IDE: registra/abre o worktree no editor escolhido (campo `ide` do nio.json de origem).
 # Best-effort — `{ …; } || true` neutraliza o `set -e`, NUNCA derruba o implement. Imprime
 # diagnóstico (ide detectado + se o binário foi achado) pra não falhar em silêncio.
 ide_msg="pulado"
 {
-  # Parse via node: o `ide` vive no noclaf.user.json (do dev); cai pro noclaf.json (legado).
-  ide=$(node -e "const f=require('fs'),d=process.argv[1];const r=p=>{try{return JSON.parse(f.readFileSync(d+'/'+p,'utf8'))}catch(e){return {}}};process.stdout.write(String(r('noclaf.user.json').ide||r('noclaf.json').ide||''))" "$root" 2>/dev/null)
+  # Parse via node: o `ide` vive no nio.user.json (do dev); cai pro nio.json (legado).
+  ide=$(node -e "const f=require('fs'),d=process.argv[1];const r=p=>{try{return JSON.parse(f.readFileSync(d+'/'+p,'utf8'))}catch(e){return {}}};process.stdout.write(String(r('nio.user.json').ide||r('nio.json').ide||''))" "$root" 2>/dev/null)
   if [ "$ide" = "vscode" ]; then
     # `code` pode não estar no PATH do shell não-interativo do agente — procura no bundle.
     code_bin="$(command -v code 2>/dev/null)"
@@ -100,7 +100,7 @@ ide_msg="pulado"
       ide_msg="ide=xcode mas \`xed\` não foi encontrado"
     fi
   else
-    ide_msg="sem ide no noclaf.user.json (rode \`noclaf init\`/\`sync\` pra escolher)"
+    ide_msg="sem ide no nio.user.json (rode \`nio init\`/\`sync\` pra escolher)"
   fi
 } 2>&1 || true
 echo "worktree=$wt  branch=$branch  ide=${ide:-none}"
@@ -118,10 +118,10 @@ sempre parte da default quando a branch não existe. Faça **todo o resto dentro
   espelhando as Tarefas), conforme convenção do repo.
 
 > **IDE.** O bloco acima já **registra o worktree no editor** conforme o `ide` do
-> `noclaf.user.json` (pref por-máquina; cai pro `noclaf.json` legado): `vscode` → `code --add`
+> `nio.user.json` (pref por-máquina; cai pro `nio.json` legado): `vscode` → `code --add`
 > (aparece no Source Control da janela ativa); `xcode` → `xed` no `.xcworkspace`/`.xcodeproj`
 > (janela própria). É best-effort e nunca falha o implement. A saída `ide=…` do bloco confirma
-> o que foi detectado — se vier `ide=none`, rode `noclaf init`/`sync` pra escolher.
+> o que foi detectado — se vier `ide=none`, rode `nio init`/`sync` pra escolher.
 
 ## 3. Implemente
 

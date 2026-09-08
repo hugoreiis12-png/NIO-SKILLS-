@@ -1,4 +1,5 @@
 ---
+id: 42
 description: Loop de build autônomo — do ticket ao PR. Cria o worktree/branch e, por ticket, roda code-executor → code-reviewer → gate (até 15 iterações por ticket), depois lint/build/testes, commit → push → PR. Default **--auto** (autônomo); **--review** adiciona um gate humano antes do push/PR. Orquestra o /implement (worktree), os agentes do trio e o /ship (fecho) — não os reescreve.
 argument-hint: <spec/bug/tickets ref> [--review]
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob, Agent, Skill

@@ -1,4 +1,5 @@
 ---
+id: 43
 name: detect-patterns
 description: Analisa o repositório atual e escreve docs/_patterns.md — um arquivo único e enxuto com os PADRÕES REAIS já usados no código (camadas, naming, libs, estado/dados/erros/testes). Use pra semear ou atualizar o harness de patterns do projeto. Roda no init/sync (headless) ou sob demanda.
 disable-model-invocation: true
@@ -37,5 +38,5 @@ está claro no código, **omita** — melhor curto e certo do que longo e especu
 
 ## Escopo
 
-- Se um `noclaf.json` tiver `repository_id`, foque no repositório atribuído (o harness é dele).
+- Se um `nio.json` tiver `repository_id`, foque no repositório atribuído (o harness é dele).
 - Pare depois de escrever o arquivo. Nada de refactor, nada de PR.

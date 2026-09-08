@@ -8,7 +8,7 @@ install: npx skills add vercel-labs/agent-skills/vercel-react-best-practices
 
 # Vercel — React best practices
 
-Skill **externa** (skills.sh) — não faz parte do `@noclaf/skills`. Reforça as convenções de
+Skill **externa** (skills.sh) — não faz parte do `@nio-cli/skills`. Reforça as convenções de
 `rules/dev/front-end/general/rules.md` com um guia de boas práticas de React mantido pela Vercel.
 
 > Instalador de linha única (`skills:` no frontmatter) — no fim do `init`/`sync` a CLI

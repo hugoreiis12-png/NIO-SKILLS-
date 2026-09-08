@@ -2,7 +2,7 @@
 title: Back-end — regras gerais da área
 description: Regras que valem pra qualquer stack de back-end (django, …) — verticalização por domínio, camadas, dados, erros e segurança. Os arquivos de stack só adicionam o específico.
 applies-to: back-end
-extends: ../general/general-rules.md
+extends: ../../general/general-rules.md
 skills: mattpocock/skills/domain-modeling
 ---
 
