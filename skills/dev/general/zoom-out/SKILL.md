@@ -1,6 +1,6 @@
 ---
 id: 16
-title: zoom-out
+name: zoom-out
 description: "Peça ao agente para dar um zoom out e trazer um contexto mais amplo ou uma perspectiva de mais alto nível. Use quando você não conhece bem uma parte do código ou precisa entender como ela se encaixa no quadro geral."
 effort: low
 ---

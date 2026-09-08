@@ -12,12 +12,12 @@ manual: |
 
 # Ponytail
 
-Dependência **externa** — não faz parte do `@noclaf/cli`. A skill [init-sdd](../skills/dev/general/init-sdd/SKILL.md)
+Dependência **externa** — não faz parte do `@nio-cli/cli`. A skill [init-sdd](../skills/dev/general/init-sdd/SKILL.md)
 depende dela em runtime pra gerar a árvore de specs (SDD) dentro de `docs/`.
 
 > **Não** é pacote npm nem vai pra `~/.claude`. É um **plugin de marketplace** do
 > Claude Code / Codex, instalado *dentro do cliente* (slash-commands + confiança de
-> hooks / UI). A CLI do noclaf **não consegue automatizar** isso — no fim do
+> hooks / UI). A CLI do nio **não consegue automatizar** isso — no fim do
 > `init`/`sync` ela apenas **imprime os passos abaixo** (o campo `manual:` do
 > frontmatter). Compare com o [improve](improve.md), que tem instalador de linha única e é
 > oferecido pra rodar com `[y/N]`.

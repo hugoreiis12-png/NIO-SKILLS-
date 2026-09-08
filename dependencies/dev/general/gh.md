@@ -12,11 +12,11 @@ install: brew install gh && gh auth login
 
 # GitHub CLI (gh)
 
-Dependência **externa** — não faz parte do `@noclaf/skills`. As skills `to-doc` (spec) e
+Dependência **externa** — não faz parte do `@nio-cli/skills`. As skills `to-doc` (spec) e
 `to-tickets` usam o `gh` pra publicar no GitHub do repo conectado: criar a issue da spec,
 uma issue por ticket, sub-issues, e aplicar o label `ready-for-agent`.
 
-> É **plugin/CLI de SO** (não npm) e precisa de **login** — a CLI do noclaf **não
+> É **plugin/CLI de SO** (não npm) e precisa de **login** — a CLI do nio **não
 > automatiza**; ela imprime os passos. Publicar no GitHub é opcional: sem o `gh`, specs e
 > tickets ficam locais (`docs/specs/`, `docs/tickets/`) e/ou vão pro tracker do NOS.
 

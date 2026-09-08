@@ -2,7 +2,7 @@
 title: Django — regras de stack
 description: Específico de Django/DRF. Aperta o baseline de back-end no ORM, camadas e config — nomear queryset pela entidade (nunca qs), fat services/thin views, N+1, paginação.
 applies-to: back-end/django
-extends: ./rules.md
+extends: ../general/rules.md
 ---
 
 > Assume as regras gerais de back-end (`rules.md`). Aqui só o específico de **Django**.

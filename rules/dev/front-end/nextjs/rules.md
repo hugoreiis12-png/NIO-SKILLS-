@@ -1,12 +1,12 @@
 ---
-title: Front-end SSR — regras de stack
-description: Específico de front-end com renderização no servidor (Next.js / TanStack). Aperta o baseline de front-end na fronteira server/client, dados e cache.
-applies-to: front-end/ssr
-extends: ./rules.md
+title: Next.js — regras de stack
+description: Específico de Next.js (App Router / RSC). Aperta o baseline de front-end na fronteira server/client, dados e cache.
+applies-to: front-end/nextjs
+extends: ../general/rules.md
 skills: vercel-labs/agent-skills/vercel-composition-patterns
 ---
 
-> Assume as regras gerais de front-end (`rules.md`). Aqui só o específico de **SSR (Next.js / TanStack)**.
+> Assume as regras gerais de front-end (`../general/rules.md`). Aqui só o específico de **Next.js (App Router / RSC)**.
 
 ## Server vs Client
 

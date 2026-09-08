@@ -38,9 +38,10 @@ function skillDepth(relPath) {
   return relPath.split("/").slice(1, -1).length;
 }
 
-/** Forma do path de um SKILL.md: role/general/skill ou role/area/<stack|general>/skill. */
+/** Forma do path de um SKILL.md: core/skill, role/general/skill ou role/area/<stack|general>/skill. */
 function validSkillPath(relPath) {
   const segs = relPath.split("/").slice(1, -1); // sem `skills` e sem `SKILL.md`
+  if (segs[0] === "core") return segs.length === 2; // skills/core/<skill>/ — sem área/stack
   if (segs.length === 3) return segs[1] === "general";
   if (segs.length === 4) return segs[1] !== "general" && !!segs[2];
   return false;
@@ -110,6 +111,8 @@ function selftest() {
   const assert = (c, m) => {
     if (!c) throw new Error(m);
   };
+  assert(validSkillPath("skills/core/senior-engineering-core/SKILL.md"), "core/skill");
+  assert(!validSkillPath("skills/core/foo/bar/SKILL.md"), "core so aceita 1 nivel");
   assert(validSkillPath("skills/dev/general/zoom-out/SKILL.md"), "role/general/skill");
   assert(validSkillPath("skills/data/general/model-card/SKILL.md"), "data/general/skill");
   assert(validSkillPath("skills/dev/front-end/general/emil/SKILL.md"), "role/area/general/skill");

@@ -1,8 +1,8 @@
 ---
 title: Front-end — regras gerais da área
-description: Regras que valem pra qualquer stack de front-end (lovable, ssr, …) — estrutura, componentes e qualidade de UI. Os arquivos de stack (lovable-rules, ssr-rules) só adicionam o específico.
+description: Regras que valem pra qualquer stack de front-end (nextjs, lovable, …) — estrutura, componentes e qualidade de UI. Os arquivos de stack só adicionam o específico.
 applies-to: front-end
-extends: ../general/general-rules.md
+extends: ../../general/general-rules.md
 skills: vercel-labs/agent-skills/vercel-react-best-practices
 ---
 

@@ -1,6 +1,7 @@
 ---
+id: 41
 name: code-reviewer
-description: Reviewer de qualidade somente-leitura — valida um diff contra o harness do projeto (docs/_rules/noclaf.md + docs/_patterns.md + AGENTS.md) e os critérios do ticket. Devolve aprovado ou violações acionáveis. NÃO corrige. É o gate subjetivo do loop de build; o mecânico (tamanho de arquivo/função/comentário) já é dos hooks.
+description: Reviewer de qualidade somente-leitura — valida um diff contra o harness do projeto (docs/_rules/nio.md + docs/_patterns.md + AGENTS.md) e os critérios do ticket. Devolve aprovado ou violações acionáveis. NÃO corrige. É o gate subjetivo do loop de build; o mecânico (tamanho de arquivo/função/comentário) já é dos hooks.
 tools: Read, Grep, Glob, Bash
 model: opus
 ---
@@ -12,7 +13,7 @@ o valida contra o harness do projeto. **Não edita nada**; devolve o veredito.
 
 ## Carregue primeiro (o harness)
 
-- `docs/_rules/noclaf.md` — rules do projeto (mecânicas + por stack selecionada).
+- `docs/_rules/nio.md` — rules do projeto (mecânicas + por stack selecionada).
 - `docs/_patterns.md` — patterns reais do repo.
 - `AGENTS.md` — constituição + overview do projeto.
 - Os critérios de aceitação do ticket/spec, se houver.

@@ -1,6 +1,6 @@
 ---
 title: Vercel — composition patterns
-description: Skill da skills.sh com padrões de composição de componentes (server/client, boundaries). Reforça as rules de SSR.
+description: Skill da skills.sh com padrões de composição de componentes (server/client, boundaries). Reforça as rules de Next.js.
 repo: https://github.com/vercel-labs/agent-skills
 skills: vercel-labs/agent-skills/vercel-composition-patterns
 install: npx skills add vercel-labs/agent-skills/vercel-composition-patterns
