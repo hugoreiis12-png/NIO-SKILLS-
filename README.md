@@ -56,6 +56,32 @@ sem depender de seleção de role. Contrato e mudança na CLI: [`docs/core-modul
 | `skills/core/senior-engineering-core/SKILL.md` | Protocolo operacional — postura, loop, disciplina de evidência, roteador N0–N3, critérios de decisão, portão de verificação, contrato de saída. |
 | `.../references/01–06.md` | Análise/diagnóstico · arquitetura · código · dados · comunicação · revisão. Carregadas sob demanda pelo roteador §3. |
 
+## Camada NOOA (opcional, aditiva)
+
+Cada skill pode ganhar uma **segunda camada** executável — um pacote Python
+(`<skill>/pyproject.toml` + `<skill>/nio_skill_<id>/`) que expõe um `nooa.Skill`
+com as ferramentas daquela skill. É **opcional**: toda skill funciona só com o
+`SKILL.md`. Hosts não-NOOA (OpenCode) ignoram o pacote.
+
+Plano de integração: [`docs/nooa-integration.md`](docs/nooa-integration.md).
+Segurança: [`SECURITY.md`](SECURITY.md) — a camada nunca é executada pelo repo
+nem pela CLI; roda só num host NOOA com sandbox de SO.
+
+**Camada implementada hoje:** `council` (framework de decisão de 5 lentes).
+
+**Desks por perfil** — um `Skill` agregador por perfil, ativa em cascata o
+toolkit daquele perfil via `self.<perfil>_desk.equip()`:
+
+| Perfil | Desk | Roster |
+|---|---|---|
+| backend | `dev/back-end/general/backend-desk` | to-doc, to-tickets, review-changes, drytify, detect-patterns, council |
+| frontend | `dev/front-end/general/frontend-desk` | emil-design-eng, animation-vocabulary, review-animations, review-changes, drytify, council |
+| analyst | `data/general/analyst-desk` | data-standards, explore-dataset, data-quality, review-sql, to-analysis, council |
+| scientist | `data/general/scientist-desk` | data-standards, model-card, experiment-design, review-notebook, feature-check, council |
+| bi | `data/general/bi-desk` | data-standards, dashboard-spec, kpi-framework, report-spec, data-storytelling, council |
+| dba ⚠️ | `data/general/dba-desk` | data-standards, review-sql, council — enxuta, sem skill própria ainda |
+| qa ⚠️ | `dev/general/qa-desk` | review-changes, detect-patterns, drytify, council — enxuta, sem skill própria ainda |
+
 ## Skills de dados (`skills/data/general/`)
 
 Todas flat sob `data/general/` (a CLI só provisiona `skills/<role>/general/**`

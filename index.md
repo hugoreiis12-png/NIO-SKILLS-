@@ -13,6 +13,24 @@ Provisionado sempre, sem depender de seleção de role. Ver [`docs/core-module.m
 | `skills/core/senior-engineering-core/SKILL.md` | 45 | Modo operacional padrão — postura, loop, evidência, roteador N0–N3, decisão, verificação, saída |
 | `skills/core/senior-engineering-core/references/01–06.md` | — | Docs de apoio (análise · arquitetura · código · dados · comunicação · revisão), sob demanda |
 
+## Camada NOOA (opcional)
+
+Skills podem trazer um pacote Python executável (`<skill>/nio_skill_<id>/`) — ver
+[`docs/nooa-integration.md`](docs/nooa-integration.md) e [`SECURITY.md`](SECURITY.md).
+Implementada: `council` (id 45).
+
+### Desks por perfil (agregadores — `equip()` ativa o roster em cascata)
+
+| Arquivo | ID | Roster |
+|---------|----|--------|
+| `skills/data/general/analyst-desk/SKILL.md` | 46 | data-standards, explore-dataset, data-quality, review-sql, to-analysis, council |
+| `skills/data/general/bi-desk/SKILL.md` | 47 | data-standards, dashboard-spec, kpi-framework, report-spec, data-storytelling, council |
+| `skills/data/general/dba-desk/SKILL.md` | 48 | data-standards, review-sql, council (⚠️ enxuta) |
+| `skills/data/general/scientist-desk/SKILL.md` | 49 | data-standards, model-card, experiment-design, review-notebook, feature-check, council |
+| `skills/dev/back-end/general/backend-desk/SKILL.md` | 50 | to-doc, to-tickets, review-changes, drytify, detect-patterns, council |
+| `skills/dev/front-end/general/frontend-desk/SKILL.md` | 51 | emil-design-eng, animation-vocabulary, review-animations, review-changes, drytify, council |
+| `skills/dev/general/qa-desk/SKILL.md` | 52 | review-changes, detect-patterns, drytify, council (⚠️ enxuta) |
+
 ## Comandos (`commands/`, role `dev`)
 
 | Arquivo | ID | Descrição |
