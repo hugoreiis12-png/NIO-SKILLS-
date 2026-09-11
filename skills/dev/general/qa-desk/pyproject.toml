@@ -15,6 +15,11 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.metadata]
+# hatchling recusa build (mesmo editable) com dependência de URL direta
+# (nooa @ git+...) sem isto — ver docs/nooa-integration.md.
+allow-direct-references = true
+
 [tool.hatch.build.targets.wheel]
 packages = ["nio_skill_qa_desk"]
 
