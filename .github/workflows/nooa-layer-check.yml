@@ -1,0 +1,74 @@
+name: nooa-layer-check
+
+# Checa a camada NOOA opcional das skills (docs/nooa-integration.md): instala o
+# NOOA pinado, IMPORTA cada pacote nio_skill_*, roda os tests deles. Nunca
+# instancia um agente. Skip limpo enquanto não houver nenhuma camada.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  nooa-layer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detectar camadas NOOA
+        id: detect
+        run: |
+          if [ -n "$(find skills -name pyproject.toml -print -quit)" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "Nenhuma camada NOOA (skills/**/pyproject.toml) — nada a checar."
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.detect.outputs.found == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Instalar NOOA pinado + as camadas
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          set -euo pipefail
+          TAG=$(python -c "import json; print(json.load(open('nio-skills.json')).get('nooa_version', ''))")
+          if [ -z "$TAG" ]; then
+            echo "::error::nio-skills.json sem nooa_version"
+            exit 1
+          fi
+          echo "NOOA pinado: $TAG"
+          python -m pip install --upgrade pip
+          python -m pip install "nooa @ git+https://github.com/NVIDIA-NeMo/labs-OO-Agents.git@${TAG}"
+          find skills -name pyproject.toml -printf '%h\n' | while read -r d; do
+            echo "pip install -e $d"
+            python -m pip install -e "$d"
+          done
+
+      - name: Resolver cada entry-point nooa.skills — NUNCA instancia um agente
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from importlib.metadata import entry_points
+
+          eps = [ep for ep in entry_points(group="nooa.skills") if ep.name.startswith("nio.")]
+          assert eps, "nenhum entry-point nio.* encontrado após pip install -e"
+          for ep in eps:
+              obj = ep.load()  # resolve a classe/instância; não a instancia
+              print(f"ok: {ep.name} -> {getattr(obj, '__name__', obj)}")
+          PY
+
+      - name: pytest das camadas (se houver tests/)
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          set -euo pipefail
+          mapfile -t tdirs < <(find skills -type d -path '*/tests')
+          if [ "${#tdirs[@]}" -eq 0 ]; then
+            echo "nenhum tests/ nas camadas"
+            exit 0
+          fi
+          python -m pip install pytest
+          python -m pytest -q "${tdirs[@]}"

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Valida a integridade estrutural do bundle antes de entrar na esteira: taxonomia
 // de skills/agents/commands, `name:` batendo com a pasta, JSON parseável, scripts
-// de hook existentes e `min_cli_version` no formato. Roda no CI
-// (.github/workflows/validate.yml) e como pre-push local. `--selftest` exercita
-// os classificadores puros. Exit 1 se algo falha.
+// de hook existentes, `min_cli_version` no formato, e a forma da camada NOOA
+// opcional das skills. Roda no CI (.github/workflows/validate.yml) e como
+// pre-push local. `--selftest` exercita os classificadores puros. Exit 1 se algo falha.
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -47,6 +47,19 @@ function validSkillPath(relPath) {
   return false;
 }
 
+/** Nome do pacote Python da camada NOOA de uma skill (hífen → underscore). */
+function nooaPkgName(skillId) {
+  return `nio_skill_${skillId.replace(/-/g, "_")}`;
+}
+
+function nioSkillsField(key) {
+  try {
+    return JSON.parse(readFileSync(join(ROOT, "nio-skills.json"), "utf8"))[key] ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function checkSkills() {
   for (const abs of walk(join(ROOT, "skills"))) {
     const r = rel(abs);
@@ -55,6 +68,34 @@ function checkSkills() {
     const folder = basename(dirname(abs));
     const name = frontmatterName(abs);
     if (name && name !== folder) fail(`skills: name: "${name}" != pasta "${folder}" — ${r}`);
+  }
+}
+
+/**
+ * Camada NOOA (opcional, aditiva). Uma pasta de skill PODE trazer
+ * `pyproject.toml` + `nio_skill_<id>/`. Só a forma é checada aqui — o CI
+ * `nooa-layer-check` importa os pacotes. Ver docs/nooa-integration.md.
+ */
+function checkNooaLayers() {
+  const pinned = nioSkillsField("nooa_version");
+  for (const abs of walk(join(ROOT, "skills"))) {
+    if (basename(abs) !== "pyproject.toml") continue;
+    const dir = dirname(abs);
+    const r = rel(abs);
+    const id = basename(dir);
+    if (!existsSync(join(dir, "SKILL.md")))
+      fail(`nooa: pyproject.toml sem SKILL.md ao lado — ${r}`);
+    const pkg = nooaPkgName(id);
+    if (!existsSync(join(dir, pkg, "__init__.py")))
+      fail(`nooa: falta o pacote ${pkg}/__init__.py — ${r}`);
+    const toml = readFileSync(abs, "utf8");
+    if (!/\[project\.entry-points\."nooa\.skills"\]/.test(toml))
+      fail(`nooa: falta [project.entry-points."nooa.skills"] — ${r}`);
+    if (!new RegExp(`"nio\\.${id}"\\s*=\\s*"${pkg}(:[A-Za-z_]\\w*)?"`).test(toml))
+      fail(`nooa: entry-point esperado "nio.${id}" = "${pkg}[:Classe]" — ${r}`);
+    if (!pinned) fail(`nooa: camada presente mas nio-skills.json sem nooa_version — ${r}`);
+    else if (!toml.includes(pinned))
+      fail(`nooa: dep "nooa" não pinada em ${pinned} (nio-skills.json) — ${r}`);
   }
 }
 
@@ -101,10 +142,13 @@ function checkHooksJson(data) {
   }
 }
 
-function checkMinCli(data) {
+function checkNioSkillsJson(data) {
   const v = data?.min_cli_version;
   if (typeof v !== "string" || !/^\d+\.\d+\.\d+$/.test(v))
     fail(`nio-skills.json: min_cli_version ausente ou fora de x.y.z — ${JSON.stringify(v)}`);
+  const n = data?.nooa_version;
+  if (n !== undefined && !/^v\d+\.\d+\.\d+$/.test(n))
+    fail(`nio-skills.json: nooa_version fora de vX.Y.Z — ${JSON.stringify(n)}`);
 }
 
 function selftest() {
@@ -120,14 +164,17 @@ function selftest() {
   assert(!validSkillPath("skills/dev/foo/bar/SKILL.md"), "depth3 sem general = invalido");
   assert(!validSkillPath("skills/dev/general/SKILL.md"), "raso demais");
   assert(skillDepth("skills/a/b/c/SKILL.md") === 3, "skillDepth");
+  assert(nooaPkgName("council") === "nio_skill_council", "nooaPkgName simples");
+  assert(nooaPkgName("to-doc") === "nio_skill_to_doc", "nooaPkgName com hifen");
   console.log("selftest ok");
 }
 
 function main() {
   checkSkills();
+  checkNooaLayers();
   checkAgents();
   checkCommands();
-  checkJson("nio-skills.json", checkMinCli);
+  checkJson("nio-skills.json", checkNioSkillsJson);
   checkJson("hooks/hooks.json", checkHooksJson);
   checkJson(".nio-ids.json");
   if (errors.length) {
