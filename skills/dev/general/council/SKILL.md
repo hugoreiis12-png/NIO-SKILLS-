@@ -26,3 +26,11 @@ Quando houver uma decisão real (mais de um caminho), execute:
    ▶️ PRÓXIMO PASSO: <uma ação única e testável pra amanhã de manhã>
 
 Uma decisão. Um passo. Sem "depende", sem cinco caminhos abertos.
+
+## Camada NOOA (opcional)
+
+Se o host tiver a camada NOOA (`nio_skill_council/`), ela dá os helpers
+determinísticos do fluxo acima: `self.council.build_prompts(decisão, contexto)`
+(5 prompts prontos, o Forasteiro sem contexto), `self.council.verdict_format()`,
+e `self.council.validate_verdict(texto)` (checa as 4 seções antes de fechar).
+Sem a camada, siga o passo a passo à mão — o resultado é o mesmo.

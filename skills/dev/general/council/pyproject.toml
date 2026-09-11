@@ -1,0 +1,23 @@
+[project]
+name = "nio-skill-council"
+version = "0.1.0"
+description = "Camada NOOA da skill council — conselho de decisão de 5 lentes."
+requires-python = ">=3.12,<3.14"
+license = { text = "MIT" }
+dependencies = [
+  "nooa @ git+https://github.com/NVIDIA-NeMo/labs-OO-Agents.git@v0.0.7",
+]
+
+[project.entry-points."nooa.skills"]
+"nio.council" = "nio_skill_council:CouncilSkill"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["nio_skill_council"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
