@@ -12,6 +12,7 @@ Provisionado sempre, sem depender de seleção de role. Ver [`docs/core-module.m
 | `rules/core/senior-core.md` | — | Bloco sempre-em-contexto; força o carregamento da skill |
 | `skills/core/senior-engineering-core/SKILL.md` | 45 | Modo operacional padrão — postura, loop, evidência, roteador N0–N3, decisão, verificação, saída |
 | `skills/core/senior-engineering-core/references/01–06.md` | — | Docs de apoio (análise · arquitetura · código · dados · comunicação · revisão), sob demanda |
+| `skills/core/fellow-bi/SKILL.md` | 46 | Modo Fellow para Power BI/Fabric — DAX, SQL do Warehouse, M e XMLA; ativa em qualquer ação de BI, inclusive leitura |
 
 ## Comandos (`commands/`, role `dev`)
 
